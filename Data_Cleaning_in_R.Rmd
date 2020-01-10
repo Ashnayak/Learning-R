@@ -1,0 +1,210 @@
+---
+title: "Data Cleaning in R"
+author: "Ashwini Nayak"
+date: "10/01/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r message=FALSE, warning=FALSE}
+# load libraries
+library(readr)
+library(dplyr)
+```
+
+```{r message=FALSE}
+# load data frame
+students_1 <- read_csv('exams_0.csv')
+students_2 <- read_csv('exams_1.csv')
+```
+
+```{r}
+# inspect data frame
+head(students_1)
+head(students_2)
+```
+
+```{r message=FALSE}
+# read CSVs
+grocery_1 <- read_csv('grocery_1.csv')
+grocery_2 <- read_csv('grocery_2.csv')
+```
+
+```{r}
+# inspect data frames
+head(grocery_1)
+summary(grocery_1)
+
+head(grocery_2)
+summary(grocery_2)
+```
+
+```{r}
+# clean data frame
+clean_data_frame = 2
+```
+
+```{r}
+# list files
+student_files <- list.files(pattern = "exams_.*csv")
+```
+
+```{r message=FALSE}
+# read files
+df_list <- lapply(student_files,read_csv)
+```
+
+```{r}
+# concatenate data frames
+students <- bind_rows(df_list)
+```
+
+```{r}
+# number of rows in students
+nrow_students <- nrow(students)
+nrow_students
+```
+
+```{r}
+# load students data frame
+load("students.Rda")
+head(students)
+```
+
+```{r}
+# original column names
+original_col_names = colnames(students)
+original_col_names
+
+```
+
+```{r}
+# gather columns
+students <- students %>%
+        gather('fractions','probability',
+              key = 'exam',
+              value = 'score')
+head(students)
+```
+
+```{r}
+# updated column names
+gathered_col_names = colnames(students)
+```
+
+```{r}
+# unique value counts of exam
+exam_counts <- students %>%
+        count(exam)
+exam_counts
+```
+
+```{r}
+# drop id column
+students$id = NULL
+head(students)
+```
+
+```{r}
+# find and count duplicated rows
+duplicates = duplicated(students)
+```
+
+```{r}
+# remove duplicated rows
+duplicates <- students %>%
+        duplicated() %>%
+        table()
+
+duplicates
+```
+
+```{r}
+# find and count duplicated rows in updated data frame
+students <- students %>%
+          distinct() 
+
+students
+
+updated_duplicates <- students %>% duplicated() %>% table()
+updated_duplicates
+```
+
+```{r}
+# print columns of students
+print(colnames(students))
+```
+
+```{r}
+# view head of students
+head(students)
+```
+
+```{r}
+# add gender and age columns
+students <- students %>%
+          mutate(gender = str_sub(gender_age,1,1))
+head(students)
+students <- students %>%
+          mutate(age = str_sub(gender_age,2))
+head(students)
+```
+
+```{r}
+# drop gender_age column
+students$gender_age = NULL
+head(students)
+```
+
+```{r}
+# view the head of students
+head(students)
+```
+
+```{r}
+# separate the full_name column
+students <- students %>% 
+        separate(full_name,
+                c('first_name','last_name'),
+                ' ',
+                extra = 'merge')
+head(students)
+```
+
+
+```{r}
+# print structure of students
+str(students)
+```
+
+```{r}
+# mean of age column
+
+students %>% 
+  summarise(mean_score = mean(score))
+str(students)
+```
+
+```{r}
+# view head of students
+head(students)
+
+```
+
+```{r}
+# remove % from score column
+students <-students %>% 
+        mutate(score = gsub('%','',score))
+students
+```
+
+```{r}
+# change score column to numeric
+
+students <- students %>%
+        mutate(score = as.numeric(score))
+```
+
