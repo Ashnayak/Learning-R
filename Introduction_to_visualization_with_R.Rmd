@@ -1,0 +1,80 @@
+---
+title: "Inroduction_to_visualization_with_R"
+author: "Ashwini Nayak"
+date: "20/01/2020"
+output: pdf_document
+---
+
+```{r message=FALSE, warning=FALSE}
+# load libraries and data
+library(readr)
+library(dplyr)
+library(ggplot2)
+movies <- read_csv("imdb.csv")
+```
+
+```{r}
+# Observe layers being added with the + sign
+viz <- ggplot(data=movies, aes(x=imdbRating, y=nrOfWins)) +
+       geom_point(aes(color=nrOfGenre), alpha=0.5) + 
+       labs(title="Movie Ratings Vs Award Wins", subtitle="From IMDB dataset", y="Number of Award Wins", x="Move Rating", color = "Number of Genre")
+
+
+# Prints the plot
+viz
+```
+
+```{r}
+#Create aesthetic mappings at the canvas level
+viz <- ggplot(data=movies,
+              aes(x = imdbRating,
+                 y = nrOfWins)) + geom_point() +geom_smooth()
+viz
+```
+
+```{r}
+# Add manual alpha aesthetic mapping
+viz <- ggplot(data=movies, aes(x=imdbRating, y=nrOfWins)) + geom_point(aes(color = nrOfGenre)) 
+
+
+# Prints the plot
+viz
+```
+
+```{r}
+# Add manual alpha aesthetic mapping. Makes it opacity 0.5.
+viz <- ggplot(data=movies, aes(x=imdbRating, y=nrOfWins)) +
+       geom_point(aes(color=nrOfGenre), alpha = .5) 
+
+
+# Prints the plot
+viz
+```
+
+```{r}
+# Add labels as specified
+viz <- ggplot(data=movies, aes(x=imdbRating, y=nrOfWins)) +
+       geom_point(aes(color=nrOfGenre), alpha=0.5) +
+      labs( title = "Movie Ratings Vs Award Wins",
+          subtitle = "From IMDB dataset",
+          x = "Movie Rating",
+          y = "Number of Award Wins",
+          color  = "Number of Genre"
+          )
+
+
+# Prints the plot
+viz
+```
+
+```{r}
+# Inspect the mpg builtin dataset
+head(mpg)
+```
+
+```{r message=FALSE}
+#Create a bar chart
+bar <- ggplot(data = mpg, aes(x = class)) + geom_bar(aes(fill = class)) + labs(title = "Types of Vehicles", subtitle = "From fuel economy data for popular car models (1999-2008)")
+bar
+```
+
