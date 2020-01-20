@@ -1,0 +1,140 @@
+---
+title: "Aggregates_in_R"
+author: "Ashwini Nayak"
+date: "20/01/2020"
+output: pdf_document
+---
+
+```{r message = FALSE}
+# load packages
+library(readr)
+library(dplyr)
+```
+
+```{r message = FALSE}
+# load data
+orders <- read_csv("orders.csv")
+page_visits <- read_csv("page_visits.csv")
+```
+
+```{r}
+# inspect data frames
+head(orders)
+head(page_visits)
+```
+
+```{r}
+# average price of order
+average_price <- orders %>% 
+  summarize(mean_price = mean(price, na.rm = TRUE))
+average_price
+```
+
+```{r}
+# page visits by UTM source
+click_source <- page_visits %>%
+  group_by(utm_source) %>%
+  summarize(count = n())
+click_source
+```
+
+```{r}
+# page visits by UTM source and month
+click_source_by_month <- page_visits %>%
+  group_by(utm_source,month) %>%
+  summarize(count = n())
+click_source_by_month
+```
+
+# inspect orders here:
+head(orders,10)
+```
+
+```{r}
+# define most_expensive here:
+most_expensive <- orders %>% 
+summarize(max_price = max(price,na.rm = TRUE))
+
+most_expensive
+```
+
+```{r}
+# define num_colors here:
+num_colors <- orders %>%
+    summarize(n_colors = n_distinct(shoe_color))
+
+num_colors
+```
+
+```{r}
+# define pricey_shoes here:
+pricey_shoes <- orders %>%
+      group_by(shoe_type) %>%
+      summarize(max_price = max(price, na.rm =TRUE))
+
+pricey_shoes
+```
+
+```{r}
+# define shoes_sold here:
+shoes_sold <- orders %>%
+        group_by(shoe_type) %>%
+        summarize(total = n())
+
+```
+
+```{r}
+# define shoe_counts here:
+shoe_counts <- orders %>%
+        group_by(shoe_type, shoe_color) %>%
+        summarize(count = n())
+```
+
+```{r}
+# define shoe_prices here:
+shoe_prices <- orders %>%
+      group_by(shoe_type, shoe_material) %>%
+      summarize(avg = mean(price, na.rm = TRUE))
+```
+
+```{r}
+# define most_pop_orders here:
+most_pop_orders <- orders %>%
+      group_by(shoe_type) %>%
+      filter(n() > 16)
+
+most_pop_orders
+```
+
+```{r}
+# define diff_from_mean here:
+ diff_from_mean <- orders %>% 
+        group_by(shoe_type) %>%
+        mutate( diff_from_shoe_type_mean = price - mean(price,na.rm = TRUE))
+```
+
+```{r}
+# define average_price here:
+
+average_price <- orders %>%
+      summarize(mean(price,na.rm = TRUE))
+average_price
+```
+
+```{r}
+# define click_source here:
+
+click_source <- page_visits %>%
+  group_by(utm_source) %>%
+  summarize(clicks = n())
+
+click_source   
+```
+
+```{r}
+# define click_source_by_month here:
+click_source_by_month <- page_visits %>%
+      group_by(utm_source,month) %>%
+      summarize(clicks_monthly = n())
+```
+
