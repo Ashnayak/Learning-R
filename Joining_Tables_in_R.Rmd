@@ -1,0 +1,167 @@
+---
+title: "Joinng Tables"
+author: "Ashwini Nayak"
+date: "21/01/2020"
+output: html_document
+---
+
+
+```{r message = FALSE}
+# load packages
+library(readr)
+library(dplyr)
+```
+
+```{r message = FALSE}
+# load orders data
+orders <- read_csv("orders.csv")
+customers <- read_csv("customers.csv")
+products <- read_csv("products.csv")
+```
+
+```{r}
+# inspect orders, customers and products here:
+head(orders)
+head(products)
+head(customers)
+```
+
+```{r}
+# define order_3_description here:
+order_3_description = ("thing-a-ma-jig")
+
+# define order_5_phone_number here:
+order_5_phone_number = "112-358-1321"
+```
+
+```{r}
+# define sales_vs_targets here:
+sales_vs_targets <- sales %>%
+  inner_join(targets)
+sales_vs_targets
+```
+
+```{r}
+# define crushing_it here:
+crushing_it <- sales_vs_targets %>%
+        filter(revenue > target)
+```
+
+```{r}
+# load men_women data here:
+men_women <- read_csv("men_women_sales.csv")
+# inspect men_women here:
+head(men_women)
+```
+
+```{r}
+# define all_data here:
+all_data <- sales %>% 
+        inner_join(targets) %>%
+        inner_join(men_women)
+```
+
+```{r}
+# define results here:
+results <- all_data %>%
+filter(revenue > target, women > men)
+head(results)
+```
+
+```{r}
+# rename the id column of products here:
+products <- products %>% 
+        rename(product_id = id)
+head(products)
+```
+
+```{r}
+# define orders_products here:
+orders_products <- orders %>%
+inner_join(products)
+head(orders_products)
+```
+
+```{r}
+# define orders_products here:
+orders_products <- orders %>%
+                inner_join(products,
+                          by = c('product_id' = 'id'),
+                          )
+head(orders_products)
+```
+
+```{r}
+# define products_orders here:
+products_orders <- products %>%
+              inner_join(orders,
+                        by = c('id' = 'product_id'),
+                        suffix = c('_prod','_order'))
+```
+
+```{r}
+# inspect orders and products here:
+head(orders)
+head(products)
+```
+
+```{r}
+# define orders_products here:
+orders_products <- orders %>% 
+inner_join(products)
+
+head(orders_products)
+```
+
+```{r}
+# define store_a_b_full here:
+store_a_b_full <- store_a %>%
+full_join(store_b)
+head(store_a_b_full)
+```
+
+```{r}
+# define left_a_b here:
+left_a_b <- store_a %>%
+left_join(store_b)
+
+head(left_a_b)
+```
+
+```{r}
+# define left_b_a here:
+left_b_a <- store_b %>%
+left_join(store_a)
+
+head(left_b_a)
+```
+
+# load visits and checkouts data
+visits <- read_csv('visits.csv')
+checkouts <- read_csv('checkouts.csv')
+```
+
+```{r}
+# inspect visits and checkouts here:
+head(visits)
+head(checkouts)
+```
+
+```{r}
+# define v_to_c here:
+v_to_c <- visits %>%
+inner_join(checkouts)
+
+v_to_c <- v_to_c %>%
+  mutate(time = checkout_time - visit_time)
+
+head(v_to_c)
+```
+
+```{r}
+# define avg_time_to_check here:
+avg_time_to_check <- v_to_c %>%
+  summarize(mean_time = mean(time))
+
+avg_time_to_check
+```
