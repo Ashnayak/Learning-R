@@ -1,0 +1,28 @@
+---
+title: "Mode in R"
+author: "Ashwini Nayak"
+date: "24/01/2020"
+output: html_document
+---
+```{r}
+mode_age <- 27
+mode_count <- 2
+```
+
+```{r message=FALSE, warning=FALSE}
+# import libraries
+library(readr)
+library(dplyr)
+library(DescTools)
+
+# Read author data
+greatest_books = read_csv("top-hundred-books.csv")
+
+# Set author ages to 
+author_ages <- greatest_books$Ages
+
+mode_age <- Mode(author_ages)
+
+print(paste("The mode age of authors from Le Monde's 100 greatest books is: ", mode_age[1]))
+```
+
