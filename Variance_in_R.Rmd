@@ -1,7 +1,7 @@
 ---
 title: "Variance in R"
 author: "Ashwini Nayak"
-date: "24/01/2020"
+date: "29/01/2020"
 output:
   html_notebook: 
     code_folding: hide
@@ -522,3 +522,108 @@ print(paste("The mean of the second dataset is ",mean(dataset_two)))
 print(paste("The variance of the first dataset is ", variance(dataset_one)))
 print(paste("The variance of the second dataset is ", variance(dataset_two)))
 ```
+
+```{r message=FALSE, warning=FALSE}
+# load libraries
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+# load data
+teacher_one_grades <- c(83.42, 88.04, 82.12, 85.02, 82.52, 87.47, 84.69, 85.18, 86.29, 85.53, 81.29, 82.54, 83.47, 83.91, 86.83, 88.5, 84.95, 83.79, 84.74, 84.03, 87.62, 81.15, 83.45, 80.24, 82.76, 83.98, 84.95, 83.37, 84.89, 87.29)
+teacher_two_grades <- c(85.15, 95.64, 84.73, 71.46, 95.99, 81.61, 86.55, 79.81, 77.06, 92.86, 83.67, 73.63, 90.12, 80.64, 78.46, 76.86, 104.4, 88.53, 74.62, 91.27, 76.53, 94.37, 84.74, 81.84, 97.69, 70.77, 84.44, 88.06, 91.62, 65.82)
+
+#plot data
+t1_chart <- qplot(teacher_one_grades,
+      geom='histogram',
+      binwidth = .8,  
+      main = 'Teacher One Grades', 
+      ylab = 'Grades',
+      fill=I("blue"), 
+      col=I("red"), 
+      alpha=I(.2)) +
+  geom_vline(aes(xintercept=mean(teacher_one_grades),
+                 color="mean"), linetype="solid",
+             size=1) +
+  scale_color_manual(name = "statistics", values = c(mean = "red" ))
+
+
+
+t1_chart
+
+
+t2_chart <- qplot(teacher_two_grades,
+      geom='histogram',
+      binwidth = .8,  
+      main = 'Teacher One Grades', 
+      ylab = 'Grades',
+      fill=I("blue"), 
+      col=I("red"), 
+      alpha=I(.2)) +
+  geom_vline(aes(xintercept=mean(teacher_two_grades),
+                 color="mean"), linetype="solid",
+             size=1) +
+  scale_color_manual(name = "statistics", values = c(mean = "red" ))
+
+
+
+t2_chart
+```
+
+```{r message=FALSE, warning=FALSE}
+# load data
+grades <- c(88, 82, 85, 84, 90)
+mean <- mean(grades)
+
+#Change these five variables
+difference_one <- 88 -  mean
+difference_two <- 82 - mean
+difference_three <- 85 - mean
+difference_four <- 84 - mean
+difference_five <- 90 -mean
+
+print(paste("The mean of the data set is ", mean))
+
+print(paste("The first student is", round(difference_one, digits=2) , "percentage points away from the mean."))
+print(paste("The second student is ", round(difference_two, digits=2) , "percentage points away from the mean."))
+print(paste("The third student is",round(difference_three, digits=2) , "percentage points away from the mean."))
+print(paste("The fourth student is",round(difference_four, digits=2) , "percentage points away from the mean."))
+print(paste("The fifth student is",round(difference_five, digits=2) , "percentage points away from the mean."))
+```
+
+```{r message=FALSE, warning=FALSE}
+#Part 1: Sum the differences
+difference_sum <- sum(difference_one,
+                     difference_two,
+                     difference_three,
+                     difference_four,
+                     difference_five)
+
+#Part 2: Average the differences
+average_difference <- difference_sum / 5
+
+#IGNORE CODE BELOW HERE
+print(paste("The sum of the differences is ", format(difference_sum, scientific = FALSE )))
+print(paste("The average difference is " , format(average_difference, scientific = FALSE)))
+```
+
+```{r message=FALSE, warning=FALSE}
+#Change these five variables
+difference_one <- (88 - mean) ^ 2
+difference_two <- (82 - mean) ^ 2
+difference_three <- (85 - mean) ^ 2
+difference_four <- (84 - mean) ^ 2
+difference_five <- (90 - mean) ^ 2
+
+#Part 1: Sum the differences
+difference_sum <- difference_one + difference_two + difference_three + difference_four + difference_five
+
+#Part 2: Average the differences
+variance <- difference_sum / 5
+
+#IGNORE CODE BELOW HERE
+print(paste("The sum of the differences is ", format(difference_sum, scientific = FALSE )))
+print(paste("The variance difference is " , format(variance, scientific = FALSE)))
+```
+
+
