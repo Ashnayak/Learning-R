@@ -1,0 +1,90 @@
+---
+title: "Quartiles"
+author: "Ashwini Nayak"
+date: "31/01/2020"
+output: html_document
+---
+
+```{r}
+dataset_one <- c(50, 10, 4, -3, 4, -20, 2)
+# sorted dataset_one: c(-20, -3, 2, 4, 4, 10, 50)
+
+dataset_two <- c(24, 20, 1, 45, -15, 40)
+
+#sorted c(-15,1, 20, 24,40,45)
+# define the second quartile of both datasets here:
+dataset_one_q2 = 4
+dataset_two_q2 = 22
+```
+
+```{r}
+# ignore the code below here:
+
+tryCatch(print(paste("The second quartile of dataset one is",dataset_one_q2)), error=function(e) {print("You haven't defined dataset_one_q2")})
+         
+tryCatch(print(paste("The second quartile of dataset two is",dataset_two_q2)), error=function(e) {print("You haven't defined dataset_two_q2")})
+```
+
+```{r}
+dataset_one <- c(50, 10, 4, -3, 4, -20, 2)
+# sorted dataset_one: [-20, -3, 2, 4, 4, 10, 50]
+
+dataset_two <- c(24, 20, 1, 45, -15, 40)
+abc = order(dataset_two)
+#sorted dataset 2 c(-15,1,20,24,40,45)
+dataset_one_q2 <- 4
+dataset_two_q2 <- 22
+
+# define the first and third quartile of both datasets here:
+dataset_one_q1 = -3
+dataset_one_q3 = 10
+
+dataset_two_q1 = 1
+dataset_two_q3 = 40
+```
+
+```{r}
+# ignore the code below here:
+
+tryCatch(print(paste("The first quartile of dataset one is",dataset_one_q1)), error=function(e) {print("You haven't defined dataset_one_q1")})
+
+tryCatch(print(paste("The third quartile of dataset one is",dataset_one_q3)), error=function(e) {print("You haven't defined dataset_one_q3")})
+         
+tryCatch(print(paste("The first quartile of dataset two is",dataset_two_q1)), error=function(e) {print("You haven't defined dataset_two_q1")})
+
+tryCatch(print(paste("The third quartile of dataset two is",dataset_two_q3)), error=function(e) {print("You haven't defined dataset_two_q3")})
+```
+
+
+```{r message=FALSE}
+# plot histogram
+hist <- qplot(songs,
+              geom="histogram",
+              main = 'Histogram of Song Lengths',
+              xlab = 'Song Length (Seconds)',
+              ylab = 'Count',
+              fill=I("blue"),
+              col=I("red"),
+              alpha=I(.2)) +
+        geom_vline(aes(xintercept=quantile(songs,0.25),
+                       color=I("blue")),
+                   linetype="solid",
+                   size=1,
+                   show.legend=T) +
+				geom_vline(aes(xintercept=quantile(songs,0.5),
+                       color=I("purple")),
+                   linetype="solid",
+                   size=1,
+                   show.legend=T) +
+  			geom_vline(aes(xintercept=quantile(songs,0.75),
+                       color=I("yellow")),
+                   linetype="solid",
+                   size=1,
+                   show.legend=T) + 
+				scale_colour_manual(name = "",
+                            labels =c("Q1","Q2","Q3"),
+                            values=c("blue","purple","yellow"))
+
+hist
+```
+
